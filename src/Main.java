@@ -1,9 +1,9 @@
 class Main {
     public static void main(String[] args) {
-        ArrExeption();
+        ArrExeption(4, 4);
     }
 
     public static void ArrExeption() {
-        int[][] arr = new int[4][4];
+        int[][] arr = new int[a][b];
     }
 }
