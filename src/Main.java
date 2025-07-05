@@ -1,24 +1,64 @@
 class Main {
-    static class MyArraySizeException extends Exception {}
+    static class MyArraySizeException extends Exception {
+        public String exeptionMessage() {
+            return "Размер должен быть 4 на 4";
+        }
+    }
+
     static class MyArrayDataException extends Exception {
-        public MyArrayDataException(int row, int col) {
-            super("Error " + "[" + row + "] [" + col + "]");
+        private final int a;
+        private final int b;
+
+        public MyArrayDataException(int a, int b) {
+            this.a = a;
+            this.b = b;
+        }
+
+        public String exeptionMessage() {
+            return "Неправильный формат данных в ячейке [" + a + "] [" + b + "]";
         }
     }
 
     public static void main(String[] args) {
-        String[][] testArray = {
+        // Тестовые массивы
+        String[][] correctArray = {
                 {"1", "2", "3", "4"},
                 {"5", "6", "7", "8"},
                 {"9", "10", "11", "12"},
-                {"13", "1a", "15", "16"}
+                {"13", "14", "15", "16"}
         };
 
+        String[][] sizeArray = {
+                {"1", "2", "3"},
+                {"4", "5", "6"},
+                {"7", "8", "9"}
+        };
+
+        String[][] dataArray = {
+                {"1", "2", "3", "4"},
+                {"5", "6", "7", "8"},
+                {"9", "10", "11a", "12"},
+                {"13", "14", "15", "16"}
+        };
+
+        System.out.println("Правильный массив: ");
+        processArray(correctArray);
+
+        System.out.println("\nНеправильный размер массива: ");
+        processArray(sizeArray);
+
+        System.out.println("\nНеправильный формат данных в массиве: :");
+        processArray(dataArray);
+    }
+
+    private static void processArray(String[][] array) {
         try {
-            int sum = ArrExeption(testArray);
-            System.out.println("Sum of array elements: " + sum);
-        } catch (MyArraySizeException | MyArrayDataException e) {
-            System.out.println(e.getMessage());
+            int sum = ArrExeption(array);
+            System.out.println("Sum of elements: " + sum);
+        } catch (MyArraySizeException e) {
+            System.out.println("Error: " + e.exeptionMessage());
+        } catch (MyArrayDataException e) {
+            System.out.println("Error: " + e.exeptionMessage());
         }
     }
 
@@ -26,8 +66,8 @@ class Main {
         if (arr.length != 4) {
             throw new MyArraySizeException();
         }
-        for (String[] row : arr) {
-            if (row.length != 4) {
+        for (String[] a : arr) {
+            if (a.length != 4) {
                 throw new MyArraySizeException();
             }
         }
