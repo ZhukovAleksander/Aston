@@ -7,7 +7,6 @@ public class Main {
         productsArray[3] = new Product("имя4", "дата4", "производитель4", "страна4", 4, false);
         productsArray[4] = new Product("имя5", "дата5", "производитель5", "страна5", 5, false);
 
-        // Выводим информацию о всех товарах
         for (int i = 0; i < productsArray.length; i++) {
             productsArray[i].printInfo();
         }

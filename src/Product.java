@@ -23,6 +23,6 @@ class Product {
         System.out.println("Страна происхождения: " + country);
         System.out.println("Цена: " + price + " руб.");
         System.out.println("Забронирован: " + (isReserved ? "Да" : "Нет"));
-        System.out.println(); // Пустая строка для разделения
+        System.out.println();
     }
 }
