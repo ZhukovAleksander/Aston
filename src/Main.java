@@ -1,4 +1,4 @@
-class Animal {
+abstract class Animal {
     private String name;
     private int maxRunDist;
     private int maxSwimDist;
@@ -137,7 +137,6 @@ public class Main {
 
         System.out.println("\nОстаток еды в миске: " + bowl.getFoodAmount());
 
-        // Добавляем еду и пробуем покормить снова
         bowl.addFood(20);
         cats[3].eat(bowl, 10);
         System.out.println(cats[3].getName() + " теперь " +
