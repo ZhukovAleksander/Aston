@@ -22,8 +22,8 @@ public class MtsOnlinePaymentTest {
         driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.manage().deleteAllCookies();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10)); // Отключаем неявные ожидания
-        wait = new WebDriverWait(driver, Duration.ofSeconds(15)); // Явное ожидание 15 сек
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        wait = new WebDriverWait(driver, Duration.ofSeconds(15));
         driver.get(SITE_URL);
         paymentPage = new PageObject(driver);
         paymentPage.closeCookie();
@@ -56,6 +56,11 @@ public class MtsOnlinePaymentTest {
     @Test
     @Order(5)
     public void testCommunicationServicesPayment() {
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         paymentPage.selectCommunicationServices();
         paymentPage.fillPhoneNumber();
         paymentPage.fillSum();
@@ -96,7 +101,7 @@ public class MtsOnlinePaymentTest {
                     "Не отображается MIR");
 
         } finally {
-            driver.switchTo().defaultContent();
+            driver.navigate().refresh();
         }
     }
 
