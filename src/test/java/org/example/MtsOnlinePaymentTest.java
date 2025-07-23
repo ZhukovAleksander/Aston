@@ -1,7 +1,10 @@
 package org.example;
 
+import io.qameta.allure.Epic;
+import io.qameta.allure.junit5.AllureJunit5;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -10,6 +13,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@ExtendWith(AllureJunit5.class)
+@Epic("Тесты для авторизации")
 public class MtsOnlinePaymentTest {
     public static WebDriver driver;
     private static PageObject paymentPage;
@@ -31,30 +36,35 @@ public class MtsOnlinePaymentTest {
 
     @Test
     @Order(1)
+    @DisplayName("Проверка вкладки 'Услуги связи'")
     public void checkCommunicationServicesLabels() {
         paymentPage.selectCommunicationServices();
     }
 
     @Test
     @Order(2)
+    @DisplayName("2 тест")
     public void checkHomeInternetLabels() {
         paymentPage.selectHomeInternet();
     }
 
     @Test
     @Order(3)
+    @DisplayName("3 тест")
     public void checkInstallmentPlanLabels() {
         paymentPage.selectInstallmentPlan();
     }
 
     @Test
     @Order(4)
+    @DisplayName("4 тест")
     public void checkDebtLabels() {
         paymentPage.selectDebt();
     }
 
     @Test
     @Order(5)
+    @DisplayName("5 тест")
     public void testCommunicationServicesPayment() {
         try {
             Thread.sleep(2000);
@@ -71,7 +81,6 @@ public class MtsOnlinePaymentTest {
             wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(
                     By.xpath("//iframe[contains(@class,'bepaid-iframe')]")));
 
-            // 6. Проверка элементов платежной формы
             assertTrue(wait.until(ExpectedConditions.visibilityOf(paymentPage.paymentSum)).isDisplayed(),
                     "Не отображается сумма платежа");
             assertTrue(wait.until(ExpectedConditions.visibilityOf(paymentPage.paymentButtonSum)).isDisplayed(),

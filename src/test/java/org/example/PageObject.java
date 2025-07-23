@@ -29,12 +29,6 @@ public class PageObject {
     @FindBy(xpath = "//p[contains(@class, 'select__option') and text()='Задолженность']")
     public WebElement debt;
 
-    @FindBy(xpath = "//div[@class='back-container']")
-    public WebElement iFrame;
-
-    @FindBy(xpath = "//svg[@xmlns='http://www.w3.org/2000/svg' and @width='24' and @height='24']")
-    public WebElement closeIframe;
-
     @FindBy(id = "connection-phone")
     public WebElement phoneInput;
 
@@ -117,11 +111,21 @@ public class PageObject {
     }
 
     public void fillPhoneNumber() {
+        try {
+            Thread.sleep(500); // небольшая задержка
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         phoneInput.click();
         phoneInput.sendKeys(testPhone);
     }
 
     public void fillSum() {
+        try {
+            Thread.sleep(500); // небольшая задержка
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         sumInput.click();
         sumInput.sendKeys(testSum);
     }
