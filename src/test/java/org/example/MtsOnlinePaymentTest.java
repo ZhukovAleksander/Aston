@@ -1,121 +1,78 @@
 package org.example;
 
+import io.qameta.allure.*;
 import io.qameta.allure.Epic;
-import io.qameta.allure.junit5.AllureJunit5;
-import io.github.bonigarcia.wdm.WebDriverManager;
+import io.qameta.allure.Feature;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
+import io.qameta.allure.Story;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import java.time.Duration;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import io.github.bonigarcia.wdm.WebDriverManager;
 
-@ExtendWith(AllureJunit5.class)
-@Epic("Тесты для авторизации")
+@Epic("Тесты для онлайн-платежей MTS")
+@Feature("Проверка блока пополнения баланса")
 public class MtsOnlinePaymentTest {
-    public static WebDriver driver;
-    private static PageObject paymentPage;
-    private static final String SITE_URL = "https://www.mts.by";
-    private static WebDriverWait wait;
+    private WebDriver driver;
+    private MtsHomePage homePage;
 
     @BeforeAll
-    public static void setUp() {
+    public static void setupAll() {
         WebDriverManager.chromedriver().setup();
+    }
+
+    @BeforeEach
+    public void setUp() {
         driver = new ChromeDriver();
         driver.manage().window().maximize();
-        driver.manage().deleteAllCookies();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
-        wait = new WebDriverWait(driver, Duration.ofSeconds(15));
-        driver.get(SITE_URL);
-        paymentPage = new PageObject(driver);
-        paymentPage.closeCookie();
+        driver.get("https://www.mts.by");
+        homePage = new MtsHomePage(driver);
+        homePage.closeCookie();
     }
 
     @Test
-    @Order(1)
-    @DisplayName("Проверка вкладки 'Услуги связи'")
-    public void checkCommunicationServicesLabels() {
-        paymentPage.selectCommunicationServices();
+    @DisplayName("Проверка заголовка блока пополнения")
+    @Story("Пользователь видит корректный заголовок")
+    @Severity(SeverityLevel.CRITICAL)
+    public void testOnlinePaymentTitle() {
+        String expectedTitle = "Онлайн пополнение\nбез комиссии";
+        String actualTitle = homePage.getOnlineReplenishTitle();
+        Assertions.assertEquals(expectedTitle, actualTitle, "Заголовок не совпадает");
     }
 
     @Test
-    @Order(2)
-    @DisplayName("2 тест")
-    public void checkHomeInternetLabels() {
-        paymentPage.selectHomeInternet();
+    @DisplayName("Проверка логотипов платежных систем")
+    @Story("Пользователь видит все логотипы платежных систем")
+    public void testPaymentLogos() {
+        homePage.verifyPaymentLogos();
     }
 
     @Test
-    @Order(3)
-    @DisplayName("3 тест")
-    public void checkInstallmentPlanLabels() {
-        paymentPage.selectInstallmentPlan();
+    @DisplayName("Проверка перехода на страницу 'Подробнее о сервисе'")
+    @Story("Пользователь может перейти на страницу с описанием сервиса")
+    public void testDetailsLink() {
+        homePage.clickDetailsLink();
+        Assertions.assertTrue(driver.getCurrentUrl().contains("internet-platezhey"),
+                "URL не соответствует странице описания сервиса");
+        driver.navigate().back();
     }
 
     @Test
-    @Order(4)
-    @DisplayName("4 тест")
-    public void checkDebtLabels() {
-        paymentPage.selectDebt();
+    @DisplayName("Проверка формы оплаты в фрейме")
+    @Story("Пользователь может заполнить форму и перейти к оплате")
+    @Severity(SeverityLevel.BLOCKER)
+    public void testPaymentForm() {
+        MtsPaymentFrame paymentFrame = homePage.fillPaymentFormAndSubmit();
+
+        paymentFrame.verifyPaymentFormFields();
+        paymentFrame.verifyPaymentSum("100");
+
+        paymentFrame.switchToDefaultContent();
     }
 
-    @Test
-    @Order(5)
-    @DisplayName("5 тест")
-    public void testCommunicationServicesPayment() {
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        paymentPage.selectCommunicationServices();
-        paymentPage.fillPhoneNumber();
-        paymentPage.fillSum();
-
-        paymentPage.clickContinue();
-
-        try {
-            wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(
-                    By.xpath("//iframe[contains(@class,'bepaid-iframe')]")));
-
-            assertTrue(wait.until(ExpectedConditions.visibilityOf(paymentPage.paymentSum)).isDisplayed(),
-                    "Не отображается сумма платежа");
-            assertTrue(wait.until(ExpectedConditions.visibilityOf(paymentPage.paymentButtonSum)).isDisplayed(),
-                    "Не отображается кнопка оплаты");
-            assertTrue(wait.until(ExpectedConditions.visibilityOf(paymentPage.paymentPhoneInfo)).isDisplayed(),
-                    "Не отображается номер телефона");
-
-            assertTrue(wait.until(ExpectedConditions.visibilityOf(paymentPage.cardNumber)).isDisplayed(),
-                    "Не отображается поле 'Номер карты'");
-            assertTrue(wait.until(ExpectedConditions.visibilityOf(paymentPage.expiryDate)).isDisplayed(),
-                    "Не отображается поле 'Срок действия'");
-            assertTrue(wait.until(ExpectedConditions.visibilityOf(paymentPage.cvc)).isDisplayed(),
-                    "Не отображается поле 'CVC'");
-            assertTrue(wait.until(ExpectedConditions.visibilityOf(paymentPage.cardName)).isDisplayed(),
-                    "Не отображается поле 'Имя и фамилия'");
-
-            assertTrue(wait.until(ExpectedConditions.visibilityOf(paymentPage.visaCardIcon)).isDisplayed(),
-                    "Не отображается VISA");
-
-            assertTrue(wait.until(ExpectedConditions.visibilityOf(paymentPage.belkartIcon)).isDisplayed(),
-                    "Не отображается Belkart");
-
-            assertTrue(wait.until(ExpectedConditions.visibilityOf(paymentPage.mastercardIcon)).isDisplayed(),
-                    "Не отображается mastercard");
-
-            assertTrue(wait.until(ExpectedConditions.visibilityOf(paymentPage.mirCard)).isDisplayed(),
-                    "Не отображается MIR");
-
-        } finally {
-            driver.navigate().refresh();
-        }
-    }
-
-    @AfterAll
-    public static void tearDown() {
+    @AfterEach
+    public void tearDown() {
         if (driver != null) {
             driver.quit();
         }
