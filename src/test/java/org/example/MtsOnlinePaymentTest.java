@@ -9,12 +9,12 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import java.util.concurrent.TimeUnit;
 
 public class MtsOnlinePaymentTest {
-    public static WebDriver driver;
-    public static String TestPhone = "297777777";
-    public static String TestSum = "100";
+    private WebDriver driver;
+    private static final String TEST_PHONE = "297777777";
+    private static final String TEST_SUM = "100";
 
-    @BeforeAll
-    public static void setUp() {
+    @BeforeEach
+    public void setUp() {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
         driver.manage().window().maximize();
@@ -24,11 +24,11 @@ public class MtsOnlinePaymentTest {
         closeCookie();
     }
 
-    public static void closeCookie() {
+    private void closeCookie() {
         try {
             WebElement acceptCookies = driver.findElement(Locators.cookieAgree);
             acceptCookies.click();
-        } catch(Exception e) {
+        } catch (Exception e) {
             System.out.println("Cookie banner not found");
         }
     }
@@ -65,14 +65,16 @@ public class MtsOnlinePaymentTest {
         WebElement sumInput = driver.findElement(Locators.sumInput);
         WebElement continueButton = driver.findElement(Locators.continueButton);
         phoneInput.click();
-        phoneInput.sendKeys(TestPhone);
+        phoneInput.sendKeys(TEST_PHONE);
         sumInput.click();
-        sumInput.sendKeys(TestSum);
+        sumInput.sendKeys(TEST_SUM);
         continueButton.click();
     }
 
-    @AfterAll
-    public static void tearDown() {
-        driver.quit();
+    @AfterEach
+    public void tearDown() {
+        if (driver != null) {
+            driver.quit();
+        }
     }
 }
