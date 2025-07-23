@@ -33,7 +33,7 @@ public class MtsOnlinePaymentTest {
 
     @Test
     @DisplayName("Проверка заголовка блока пополнения")
-    @Story("Пользователь видит корректный заголовок")
+    @Order(1)
     public void testOnlinePaymentTitle() {
         String expectedTitle = "Онлайн пополнение\nбез комиссии";
         String actualTitle = homePage.getOnlineReplenishTitle();
@@ -41,15 +41,15 @@ public class MtsOnlinePaymentTest {
     }
 
     @Test
-    @DisplayName("Проверка логотипов платежных систем")
-    @Story("Пользователь видит все логотипы платежных систем")
+    @DisplayName("Проверка логотипов платежных систем на главном экране")
+    @Order(2)
     public void testPaymentLogos() {
         homePage.verifyPaymentLogos();
     }
 
     @Test
     @DisplayName("Проверка перехода на страницу 'Подробнее о сервисе'")
-    @Story("Пользователь может перейти на страницу с описанием сервиса")
+    @Order(3)
     public void testDetailsLink() {
         homePage.clickDetailsLink();
         Assertions.assertTrue(driver.getCurrentUrl().contains("internet-platezhey"),
@@ -59,6 +59,7 @@ public class MtsOnlinePaymentTest {
 
     @Test
     @DisplayName("Проверка полей карты в форме оплаты в фрейме")
+    @Order(4)
     public void testPaymentFormFields() {
         MtsPaymentFrame paymentFrame = homePage.fillPaymentFormAndSubmit();
 
@@ -69,7 +70,7 @@ public class MtsOnlinePaymentTest {
 
     @Test
     @DisplayName("Проверка лого карт в форме оплаты в фрейме")
-    //@Order(1)
+    @Order(5)
     public void testCardLogos() {
         MtsPaymentFrame paymentFrame = homePage.fillPaymentFormAndSubmit();
 
@@ -80,7 +81,7 @@ public class MtsOnlinePaymentTest {
 
     @Test
     @DisplayName("Проверка формы оплаты в фрейме")
-    //@Order(1)
+    @Order(6)
     public void testPaymentSum() {
         MtsPaymentFrame paymentFrame = homePage.fillPaymentFormAndSubmit();
 
@@ -91,7 +92,7 @@ public class MtsOnlinePaymentTest {
 
     @Test
     @DisplayName("Проверка формы оплаты на кнопке в фрейме")
-    //@Order(1)
+    @Order(7)
     public void testPaymentButtonSum() {
         MtsPaymentFrame paymentFrame = homePage.fillPaymentFormAndSubmit();
 
@@ -102,7 +103,7 @@ public class MtsOnlinePaymentTest {
 
     @Test
     @DisplayName("Проверка номера телефона в форме оплаты в фрейме")
-    //@Order(1)
+    @Order(8)
     public void testPhoneNumber() {
         MtsPaymentFrame paymentFrame = homePage.fillPaymentFormAndSubmit();
 
