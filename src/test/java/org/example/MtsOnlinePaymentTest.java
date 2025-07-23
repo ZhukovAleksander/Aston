@@ -34,7 +34,6 @@ public class MtsOnlinePaymentTest {
     @Test
     @DisplayName("Проверка заголовка блока пополнения")
     @Story("Пользователь видит корректный заголовок")
-    @Severity(SeverityLevel.CRITICAL)
     public void testOnlinePaymentTitle() {
         String expectedTitle = "Онлайн пополнение\nбез комиссии";
         String actualTitle = homePage.getOnlineReplenishTitle();
@@ -61,7 +60,6 @@ public class MtsOnlinePaymentTest {
     @Test
     @DisplayName("Проверка формы оплаты в фрейме")
     @Story("Пользователь может заполнить форму и перейти к оплате")
-    @Severity(SeverityLevel.BLOCKER)
     public void testPaymentForm() {
         MtsPaymentFrame paymentFrame = homePage.fillPaymentFormAndSubmit();
 
