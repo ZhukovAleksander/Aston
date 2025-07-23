@@ -121,3 +121,5 @@ public class MtsOnlinePaymentTest {
         }
     }
 }
+
+//mvn clean test allure:serve
