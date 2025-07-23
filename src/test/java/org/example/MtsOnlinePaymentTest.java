@@ -58,13 +58,55 @@ public class MtsOnlinePaymentTest {
     }
 
     @Test
-    @DisplayName("Проверка формы оплаты в фрейме")
-    @Story("Пользователь может заполнить форму и перейти к оплате")
-    public void testPaymentForm() {
+    @DisplayName("Проверка полей карты в форме оплаты в фрейме")
+    public void testPaymentFormFields() {
         MtsPaymentFrame paymentFrame = homePage.fillPaymentFormAndSubmit();
 
         paymentFrame.verifyPaymentFormFields();
-        paymentFrame.verifyPaymentSum("100");
+
+        paymentFrame.switchToDefaultContent();
+    }
+
+    @Test
+    @DisplayName("Проверка лого карт в форме оплаты в фрейме")
+    //@Order(1)
+    public void testCardLogos() {
+        MtsPaymentFrame paymentFrame = homePage.fillPaymentFormAndSubmit();
+
+        paymentFrame.verifyCardLogos();
+
+        paymentFrame.switchToDefaultContent();
+    }
+
+    @Test
+    @DisplayName("Проверка формы оплаты в фрейме")
+    //@Order(1)
+    public void testPaymentSum() {
+        MtsPaymentFrame paymentFrame = homePage.fillPaymentFormAndSubmit();
+
+        paymentFrame.verifyPaymentSum("100.00 BYN");
+
+        paymentFrame.switchToDefaultContent();
+    }
+
+    @Test
+    @DisplayName("Проверка формы оплаты на кнопке в фрейме")
+    //@Order(1)
+    public void testPaymentButtonSum() {
+        MtsPaymentFrame paymentFrame = homePage.fillPaymentFormAndSubmit();
+
+        paymentFrame.verifyPaymentButtonSum("Оплатить 100.00 BYN");
+
+        paymentFrame.switchToDefaultContent();
+    }
+
+    @Test
+    @DisplayName("Проверка номера телефона в форме оплаты в фрейме")
+    //@Order(1)
+    public void testPhoneNumber() {
+        MtsPaymentFrame paymentFrame = homePage.fillPaymentFormAndSubmit();
+
+        paymentFrame.verifyPhoneNumber("Оплата: Услуги связи Номер:375297777777");
 
         paymentFrame.switchToDefaultContent();
     }
