@@ -58,6 +58,14 @@ public class MtsOnlinePaymentTest {
     }
 
     @Test
+    @DisplayName("Проверка кликабельности кнопки 'Продолжить'")
+    @Order(3)
+    public void testContinueButton() {
+        MtsPaymentFrame paymentFrame = homePage.fillPaymentFormAndSubmit();
+        paymentFrame.testFrameVisibility();
+    }
+
+    @Test
     @DisplayName("Проверка полей карты в форме оплаты в фрейме")
     @Order(4)
     public void testPaymentFormFields() {
@@ -80,30 +88,20 @@ public class MtsOnlinePaymentTest {
     }
 
     @Test
-    @DisplayName("Проверка формы оплаты в фрейме")
+    @DisplayName("Проверка цены в форме оплаты в фрейме")
     @Order(6)
-    public void testPaymentSum() {
+    public void testPaymentButtonSum() {
         MtsPaymentFrame paymentFrame = homePage.fillPaymentFormAndSubmit();
 
+        paymentFrame.verifyPaymentButtonSum("Оплатить 100.00 BYN");
         paymentFrame.verifyPaymentSum("100.00 BYN");
 
         paymentFrame.switchToDefaultContent();
     }
 
     @Test
-    @DisplayName("Проверка формы оплаты на кнопке в фрейме")
-    @Order(7)
-    public void testPaymentButtonSum() {
-        MtsPaymentFrame paymentFrame = homePage.fillPaymentFormAndSubmit();
-
-        paymentFrame.verifyPaymentButtonSum("Оплатить 100.00 BYN");
-
-        paymentFrame.switchToDefaultContent();
-    }
-
-    @Test
     @DisplayName("Проверка номера телефона в форме оплаты в фрейме")
-    @Order(8)
+    @Order(7)
     public void testPhoneNumber() {
         MtsPaymentFrame paymentFrame = homePage.fillPaymentFormAndSubmit();
 

@@ -61,8 +61,13 @@ public class MtsPaymentFrame {
         switchToFrame();
     }
 
-    private void switchToFrame() {
+    public void switchToFrame() {
         wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(paymentFrame));
+    }
+
+    public void testFrameVisibility() {
+        wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(paymentFrame));
+        wait.until(ExpectedConditions.visibilityOf(paymentFrame));
     }
 
     public void verifyPaymentFormFields() {
