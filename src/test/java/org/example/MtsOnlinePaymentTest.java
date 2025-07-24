@@ -27,6 +27,7 @@ public class MtsOnlinePaymentTest {
         driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.get("https://www.mts.by");
+        driver.manage().deleteAllCookies();
         homePage = new MtsHomePage(driver);
         homePage.closeCookie();
     }
@@ -59,15 +60,54 @@ public class MtsOnlinePaymentTest {
 
     @Test
     @DisplayName("Проверка кликабельности кнопки 'Продолжить'")
-    @Order(3)
+    @Order(4)
     public void testContinueButton() {
         MtsPaymentFrame paymentFrame = homePage.fillPaymentFormAndSubmit();
-        paymentFrame.testFrameVisibility();
+
+        paymentFrame.verifyPaymentFormFields();
+
+        paymentFrame.switchToDefaultContent();
+    }
+
+    @Test
+    @DisplayName("Проверка пустых полей в окне 'Услуги связи'")
+    @Order(5)
+    public void testCommunicationServices() {
+        homePage.selectCommunicationServices();
+
+        homePage.verifyCommunicationServices();
+    }
+
+    @Test
+    @DisplayName("Проверка пустых полей в окне 'Домашний интернет'")
+    @Order(6)
+    public void testHomeInternet() {
+        homePage.selectHomeInternet();
+
+        homePage.verifyHomeInternet();
+    }
+
+    @Test
+    @DisplayName("Проверка пустых полей в окне 'Рассрочка'")
+    @Order(7)
+    public void testInstallmentPlan() {
+        homePage.selectInstallmentPlan();
+
+        homePage.verifyInstallmentPlan();
+    }
+
+    @Test
+    @DisplayName("Проверка пустых полей в окне 'Задолженность'")
+    @Order(8)
+    public void testArrears() {
+        homePage.selectArrears();
+
+        homePage.verifyArrears();
     }
 
     @Test
     @DisplayName("Проверка полей карты в форме оплаты в фрейме")
-    @Order(4)
+    @Order(9)
     public void testPaymentFormFields() {
         MtsPaymentFrame paymentFrame = homePage.fillPaymentFormAndSubmit();
 
@@ -78,7 +118,7 @@ public class MtsOnlinePaymentTest {
 
     @Test
     @DisplayName("Проверка лого карт в форме оплаты в фрейме")
-    @Order(5)
+    @Order(10)
     public void testCardLogos() {
         MtsPaymentFrame paymentFrame = homePage.fillPaymentFormAndSubmit();
 
@@ -89,7 +129,7 @@ public class MtsOnlinePaymentTest {
 
     @Test
     @DisplayName("Проверка цены в форме оплаты в фрейме")
-    @Order(6)
+    @Order(11)
     public void testPaymentButtonSum() {
         MtsPaymentFrame paymentFrame = homePage.fillPaymentFormAndSubmit();
 
@@ -101,7 +141,7 @@ public class MtsOnlinePaymentTest {
 
     @Test
     @DisplayName("Проверка номера телефона в форме оплаты в фрейме")
-    @Order(7)
+    @Order(12)
     public void testPhoneNumber() {
         MtsPaymentFrame paymentFrame = homePage.fillPaymentFormAndSubmit();
 
